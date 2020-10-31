@@ -38,7 +38,7 @@ public class LoginCommand implements CommandExecutor
 
         if (!AuthPlugin.getPlugin().getConfig().isSet("pws." + player.getUniqueId().toString() + ".pw"))
         {
-            player.sendMessage("§cSeems like your data has been editied manually... Please contact an admin!!!");
+            player.sendMessage("§cSeems like your data has been edited manually... Please contact an admin!!!");
             return true;
         }
 
