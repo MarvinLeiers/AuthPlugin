@@ -5,10 +5,9 @@ import de.marvinleiers.authplugin.commands.RegisterCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -49,7 +48,8 @@ public final class AuthPlugin extends JavaPlugin implements Listener
         {
             register.add(player);
 
-            new BukkitRunnable() {
+            new BukkitRunnable()
+            {
 
                 int i = 0;
 
@@ -79,7 +79,8 @@ public final class AuthPlugin extends JavaPlugin implements Listener
         {
             login.add(player);
 
-            new BukkitRunnable() {
+            new BukkitRunnable()
+            {
 
                 int i = 0;
 
@@ -105,6 +106,46 @@ public final class AuthPlugin extends JavaPlugin implements Listener
                 }
             }.runTaskTimer(this, 0, 200);
         }
+    }
+
+    @EventHandler
+    public void onPrevent(PlayerCommandPreprocessEvent event)
+    {
+        if (!register.contains(event.getPlayer()) && !login.contains(event.getPlayer()))
+            return;
+
+        if (event.getMessage().toLowerCase().startsWith("/login") || event.getMessage().toLowerCase().startsWith("/register"))
+            return;
+
+        event.getPlayer().sendMessage("§cYou need to login first!");
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event)
+    {
+        if (!register.contains(event.getPlayer()) && !login.contains(event.getPlayer()))
+            return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockPlaceEvent event)
+    {
+        if (!register.contains(event.getPlayer()) && !login.contains(event.getPlayer()))
+            return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockBreak(PlayerInteractEvent event)
+    {
+        if (!register.contains(event.getPlayer()) && !login.contains(event.getPlayer()))
+            return;
+
+        event.setCancelled(true);
     }
 
     @EventHandler
