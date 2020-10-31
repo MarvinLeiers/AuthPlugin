@@ -16,7 +16,7 @@ public class LoginCommand implements CommandExecutor
     {
         if (!(sender instanceof Player))
         {
-            sender.sendMessage("§cThis comand is only for players!");
+            sender.sendMessage("§cThis command is only for players!");
             return true;
         }
 
